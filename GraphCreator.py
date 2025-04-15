@@ -5,50 +5,92 @@ from RandomChart import get_random_data
 ###############################################################
 ###         Funkcje importowane
 
-from EMA_custom import EMA
-from SMA import SMA
-from guppy_ema import guppy_mode_ema
-from Least_Square_MA import LSMA
-
-###############################################################
+from Funkcje.indicators.EMA_custom import EMA
+from Funkcje.indicators.SMA import SMA
+from Funkcje.indicators.guppy_ema import guppy_mode_ema
+from Funkcje.indicators.Least_Square_MA import LSMA
 
 
 
-def _plot(input_dict:dict):
+"""Import funkcji przecinania"""
 
-    plt.plot(list(input_dict.keys()),list(input_dict.values()))
+from Crossing import get_Crossing
 
 
 
 ###############################################################
-size : int = 1000
-
-random_data_data : tuple = get_random_data(size) ## trzymam dwie listy 
 
 
-#   random_data_data[0]     --- lista od 1 do size
+
+def _plot(input_dict:dict,label_cus:str):
+
+    plt.plot(list(input_dict.keys()),list(input_dict.values()),label=label_cus)
+
+
+
+def _plot_crosses(input_dict:dict):
+
+    plt.plot(list(input_dict.keys()),list(input_dict.values()),'o')
+
+
+
+
+
+
+###############################################################
+size : int = 200
+
+random_data_data : dict = get_random_data(size) ## trzymam dwie listy 
+
+
+#   random_data_data[0]     --- lista od 0 do size
 #   random_data_data[1]     --- wygenerowane losowo dane
 
 
-_input = random_data_data[1] ### ułatwienie
+losowe_ceny = list(random_data_data.values()) ### ułatwienie | dane dla dni od 
 
 
 
 
 ### Testuje zachowanie LMSA
 
+lsma = LSMA(losowe_ceny,25)
+_plot(lsma,"LSMA")
 
-_plot(LSMA(_input,430))
 
-ema_test : tuple = EMA(random_data_data[1],430)
+## ema
+
+ema_test : dict = EMA(losowe_ceny,52)
+
+
 plt.plot(list(ema_test.keys()),list(ema_test.values()),label="EMA",color="orange") 
 
 ###
 
-# _plot(SMA(_input,30),colour="red")
+#SMA
+sma = SMA(losowe_ceny,15)
+_plot(sma,"SMA")
 
 
-plt.plot(random_data_data[0],random_data_data[1],color="black") # drukuje szum
+
+
+"""Pokazanie wykresu ceny /prawdziwgo/ """
+plt.plot(list(random_data_data.keys()),list(random_data_data.values()),color="black",label="$$$") # drukuje szum
+
+
+
+"""znajduje punkty przecieciecia"""
+
+print(losowe_ceny)
+
+
+_plot_crosses(get_Crossing(lsma,random_data_data))
+_plot_crosses(get_Crossing(sma,random_data_data))
+_plot_crosses(get_Crossing(ema_test,random_data_data))
+
+
+
+plt.legend()
 plt.show()
 
 

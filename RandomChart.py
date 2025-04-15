@@ -22,8 +22,8 @@ def get_random_data(number_of_instances:int):
     ###         Parametry szumu 
     power = random.randint(2,3)
     delta_X = 300 ## przesunięcie funkcji trendu | f(x+delta_x)
-    
-  
+
+    _price : dict={} # tworze słownik wyników dzien:cena
 
     for i in range(number_of_instances):
 
@@ -38,10 +38,10 @@ def get_random_data(number_of_instances:int):
         trend : float = (i+delta_X)**(1/power)
 
 
-        arr_of_noise.append(abs(round(Part_A + Part_B - Part_C+Part_D,2))+trend)
-        arr_of_numbers.append(i)
+        
+        _price[i] = abs(round(Part_A + Part_B - Part_C+Part_D,2))+trend
 
-    return arr_of_numbers,arr_of_noise
+    return _price
 
 
 

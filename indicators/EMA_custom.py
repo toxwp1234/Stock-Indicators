@@ -27,7 +27,7 @@ def EMA(arr:list,okres:int):
             suma_cenowa += f(i+1)*arr[x-i]
 
 
-        wyniki[x] = [suma_cenowa/suma_wag]
+        wyniki[x] = suma_cenowa/suma_wag
 
         # print(suma_cenowa/suma_wag)
         

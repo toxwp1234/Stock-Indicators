@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from EMA_custom  import EMA
+from Funkcje.indicators.EMA_custom  import EMA
 
 
 ### Funkcja Guppy EMA generuje średnią ważoną kroczacą dla każdej wartości z listy
